@@ -1,0 +1,122 @@
+<div class="bg-surface-0 p-6">
+  <div class="flex items-center mb-4 gap-2">
+    <div class="text-surface-900 text-xl font-bold">
+      Bot
+    </div>
+    <span class="pi pi-hammer"></span>
+    <div class="text-surface-900 font-bold text-sm">
+      Suche
+    </div>
+  </div>
+
+  <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+    <p-inputgroup>
+      <p-inputgroup-addon>
+        <i [ngClass]="{'text-primary-600': topicFilter}" class="pi pi-filter text-surface-500"
+           (click)="topicFilter = !topicFilter"></i>
+      </p-inputgroup-addon>
+      @if (topicFilter) {
+        <p-inputgroup-addon>
+          <div class="card flex justify-center">
+            <p-treeselect
+              class="md:w-60 w-full" containerStyleClass="w-full"
+              [filter]="true" [filterInputAutoFocus]="true"
+              [(ngModel)]="this.selectTopic"
+              [options]="this.treeNodes()"
+              selectionMode="checkbox"
+              placeholder="Dokumente auswählen"></p-treeselect>
+          </div>
+        </p-inputgroup-addon>
+      }
+      <input (keydown.enter)="askAI()" type="text" pInputText id="fluid" fluid [(ngModel)]="query"
+             placeholder="Ask any question..." />
+      <p-inputgroup-addon>
+        <p-button text severity="secondary" label="Ask AI" (onClick)="askAI()">
+        </p-button>
+      </p-inputgroup-addon>
+    </p-inputgroup>
+  </div>
+  @if (askKi) {
+    <div [ngClass]="{'border-animation': isStyleActive, 'border-2': !isStyleActive}"
+         class="mt-4 example-1 rounded-md w-full">
+      <div [ngClass]="isStyleActive ? 'p-8' : 'pt-8 px-8 pb-2'" class="inner rounded-md bg-surface-0">
+        <div [ngClass]="{'hidden': !isStyleActive || kiContent != ''}" class="loader"></div>
+        @if (kiContent != '') {
+          <h2 class="text-sm font-bold text-surface-500">Antwort</h2>
+          <p class="mt-1">
+            {{ kiContent }}
+          </p>
+          <p-divider></p-divider>
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <p-tag severity="secondary">BETA</p-tag>
+              <p class="text-sm text-surface-500">Die KI befindet sich noch in der Testphase (Beta), und die Qualität
+                der Inhalte kann variieren.</p>
+            </div>
+            <div class="flex items-end gap-2 text-[8px] font-bold text-surface-500">
+              <img src="/datamatrix-logo.svg" class="h-12 w-12" />
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  <div class="py-6">
+    <div class="text-sm font-bold mb-2">Es werden {{ retrievedBlocks.length }} von {{ retrievedBlocks.length }}
+      Ergebnissen angezeigt.
+    </div>
+
+    <div class="flex flex-col gap-4 mt-8">
+      @for (searchBlock of retrievedBlocks; track searchBlock) {
+        <div class="flex items-start">
+
+          @switch (searchBlock.type) {
+            @case (KnowledgeType.FAQ) {
+              <div class="text-gray-400 mr-4">
+                <i class="pi pi-question-circle"></i>
+              </div>
+            }
+            @case (KnowledgeType.DOCUMENT) {
+              <div class="text-red-600 mr-4">
+                <i class="pi pi-file-pdf"></i>
+              </div>
+            }
+            @case (KnowledgeType.TOPIC) {
+              <div class="text-gray-400 mr-4">
+                <i class="pi pi-file"></i>
+              </div>
+            }
+          }
+          <div class="">
+            <a class="text-surface-500 font-semibold cursor-pointer" (click)="openBlock(searchBlock)">
+              {{ searchBlock.title }}
+            </a>
+            <div class="text-sm text-gray-500"><a [routerLink]="['/domain']"
+                                                  class="">{{ searchBlock.topic.title }}</a>
+              •
+              Aktualisiert 4. Dezember 2024
+            </div>
+            <p class="text-gray-700 mt-2">
+              {{ searchBlock.content_preview }}
+            </p>
+          </div>
+        </div>
+      }
+      @if (isLoading) {
+        <div class="flex items-start">
+
+          <div class="text-gray-400 mr-4">
+            <p-skeleton width="10rem" size="2rem" styleClass="mr-2" />
+          </div>
+          <div class="w-full">
+            <p-skeleton width="10rem" height="1.5rem" styleClass="mb-2" />
+            <div class="text-sm text-gray-500">
+              <p-skeleton height="1rem" width="40rem" styleClass="mb-2" />
+            </div>
+            <p-skeleton height="4rem" />
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

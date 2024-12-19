@@ -1,0 +1,40 @@
+@if (this.isEditMode() && this.file()) {
+  <div class="mb-4 flex items-center gap-4">
+    <label for="name" class="w-24 font-semibold">Name</label>
+    <input pInputText [(ngModel)]="this.newName" id="name" class="flex-auto" autocomplete="off" />
+  </div>
+}
+
+@if (this.isAddMode()) {
+  <p-fileupload
+    #fileUpload
+    [multiple]="false"
+    (onSelect)="this.onSelect($event)"
+    (onRemove)="this.onRemove($event)"
+    mode="advanced">
+    <ng-template #header let-chooseCallback="chooseCallback">
+      <div class="flex flex-1 flex-wrap items-center justify-between gap-4">
+        <div class="flex gap-2">
+          <p-button
+            (onClick)="this.choose($event, chooseCallback)"
+            icon="pi pi-file"
+            [rounded]="true"
+            [outlined]="true" />
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #empty>
+      <div>Ziehe Dateien hierher, um sie hochzuladen.</div>
+    </ng-template>
+  </p-fileupload>
+}
+
+<div class="mt-4 flex justify-end gap-2">
+  <p-button label="Zurück" severity="secondary" (click)="ref.close()" />
+  <p-button
+    loadingIcon="pi pi-spin pi-spinner"
+    [loading]="this.isUploading()"
+    [disabled]="this.isEditMode() || this.uploadedFiles().length <= 0"
+    label="Speichern"
+    (onClick)="this.save()" />
+</div>

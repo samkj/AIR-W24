@@ -1,0 +1,9 @@
+<div class="flex flex-1" style="width: 100%; height: 75vh">
+  @if (this.pdf()) {
+    <ng2-pdfjs-viewer
+      class="w-full"
+      [pdfSrc]="this.pdf()"
+      locale="de-AT"
+      viewerFolder="pdfjs"></ng2-pdfjs-viewer>
+  }
+</div>

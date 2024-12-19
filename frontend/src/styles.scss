@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+$header-size: 64px;
+
+#viewEditor .p-editor-toolbar {
+  display: none;
+}
+
+.p-tree-filter-input {
+  width: 100% !important;
+}
+
+.p-tree-node-label {
+  width: 100%;
+}
+
+.p-editor .p-editor-content .ql-editor {
+  @apply bg-transparent
+}
+
+.p-tree-node-children {
+  border-left-width: 2px !important;
+  padding: 0 !important;
+  padding-left: 5px !important;
+  margin-left: 21px !important;
+}
+
+.p-tree-node-content {
+  padding: 0 !important;
+  padding-left: 0.25rem !important;
+  padding-right: 0.25rem !important;
+}

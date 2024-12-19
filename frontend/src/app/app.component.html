@@ -1,0 +1,28 @@
+<app-sidebar [ngClass]="{
+'animate-slideIn': !collapsed,
+'animate-slideOut': collapsed,
+'border-r-primary-500': hover,
+'': !hover
+}"
+             [class.w-14]="collapsed"
+             [class.min-w-14]="collapsed"
+             [class.min-w-[450px]]="!collapsed"
+             [class.w-[450px]]="!collapsed" [collapsed]="collapsed" [hover]="hover"></app-sidebar>
+<main class="flex flex-col flex-1">
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+</main>
+<div
+  [ngClass]="collapsed ? 'left-[calc(3.5rem-20px)]' : 'left-[430px]'"
+  class="absolute top-[105px] transition-all duration-300"
+>
+  <p-button
+    size="small"
+    [icon]="collapsed ? 'pi pi-angle-right' : 'pi pi-angle-left'"
+    [rounded]="true"
+    severity="primary"
+    (click)="toggleSidebar()"
+    (mouseover)="hover = true"
+    (mouseout)="hover = false"
+  ></p-button>
+</div>

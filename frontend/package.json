@@ -1,0 +1,44 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^18.2.0",
+    "@angular/common": "^18.2.0",
+    "@angular/compiler": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "@angular/forms": "^18.2.0",
+    "@angular/platform-browser": "^18.2.0",
+    "@angular/platform-browser-dynamic": "^18.2.0",
+    "@angular/router": "^18.2.0",
+    "@ngneat/until-destroy": "^10.0.0",
+    "@primeng/themes": "^18.0.0",
+    "event-source-plus": "^0.1.8",
+    "ng2-pdfjs-viewer": "^18.0.0",
+    "prettier": "^3.4.1",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "primeicons": "^7.0.0",
+    "primeng": "^18.0.0",
+    "quill": "^2.0.3",
+    "rxjs": "~7.8.0",
+    "tailwindcss-primeui": "^0.3.4",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.10"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.2.12",
+    "@angular/cli": "^18.2.12",
+    "@angular/compiler-cli": "^18.2.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "typescript": "~5.5.2"
+  }
+}

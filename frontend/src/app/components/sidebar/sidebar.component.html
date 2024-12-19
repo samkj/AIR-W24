@@ -1,0 +1,82 @@
+<div [ngClass]="{'pl-6': !collapsed}"
+     class="flex items-center justify-between w-full text-surface-700 py-1 border-b-2 shadow-sm h-16">
+  <div>G19</div>
+</div>
+@if (!collapsed) {
+  <div class="w-full overflow-y-auto">
+    <ul class="list-none p-2 m-0">
+      <li class="flex px-1 items-center justify-between hover:bg-surface-100 rounded-border" (click)="knowledgebaseDropDownActive = !knowledgebaseDropDownActive">
+        <div class="flex items-center ">
+          <i class="pi pi-database"></i>
+          <div class="p-2 font-medium">Knowledgebase</div>
+        </div>
+        <i [ngClass]="knowledgebaseDropDownActive ? 'pi pi-chevron-up' : 'pi pi-chevron-down'" class="pr-2"></i>
+      </li>
+
+      <p-tree
+        [hidden]="!knowledgebaseDropDownActive"
+        [value]="this.files()"
+        styleClass="p-0 pt-2"
+        [filter]="true"
+        selectionMode="single"
+        [(selection)]="this.selectedFile"
+        filterPlaceholder="Nach Titel suchen"
+        (onNodeSelect)="this.viewTopic()"
+        (onNodeDrop)="this.onNodeDrop($event)"
+        [draggableNodes]="true"
+        [droppableNodes]="true"
+        draggableScope="self"
+        droppableScope="self">
+        <ng-template let-expanded #togglericon>
+          @if (expanded) {
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                 class="transition duration-300 size-2.5 text-gray-600 rotate-90">
+              <path
+                d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"></path>
+            </svg>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                 class="transition duration-300 size-2.5 text-gray-600">
+              <path
+                d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"></path>
+            </svg>
+          }
+        </ng-template>
+        <ng-template let-node pTemplate="url">
+          <div class="flex items-center justify-between relative" (mouseenter)="node.hover = true" (mouseleave)="node.hover = false">
+                <span class="font-bold text-sm" style="width: calc(100% - 36px)">
+                  {{ node.label }}
+                </span>
+            @if (node.hover) {
+              <button
+                type="button"
+                pTooltip="Unterthema erstellen"
+                class="absolute right-0 z-50 border-none h-8 cursor-pointer"
+                (click)="createTopic(node)"
+              >
+                @if (node.loading) {
+                  <i class="pi pi-spin pi-spinner"></i>
+                } @else {
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                       stroke="currentColor" class="size-4 text-gray-700">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                }
+              </button>
+            }
+          </div>
+        </ng-template>
+      </p-tree>
+      <p-button
+        [hidden]="!knowledgebaseDropDownActive"
+        styleClass="justify-start text-sm"
+        fluid
+        icon="pi pi-plus"
+        severity="secondary"
+        text
+        label="Hinzufügen"
+        [loading]="topicCreationLoading"
+        (click)="createTopic()"></p-button>
+    </ul>
+  </div>
+}
