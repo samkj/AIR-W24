@@ -1,0 +1,9 @@
+core_database.db
+/venv
+/document_preview
+/knowledgebase
+/.idea
+.env
+poetry.lock
+/.env
+/poetry.lock

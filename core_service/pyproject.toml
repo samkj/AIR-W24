@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "core-service"
+version = "0.1.0"
+description = ""
+authors = ["Christian Bachl, Alex Walliser"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "0.112.0"
+pydantic = "2.8.2"
+uvicorn = "0.30.5"
+python-dotenv = "1.0.1"
+python-multipart = "0.0.9"
+typing-extensions = "^4.12.2"
+regex = "^2024.11.6"
+pyjwt = "2.9.0"
+requests = "^2.32.3"
+cryptography = "43.0.0"
+numpy = "^2.1.3"
+sqlalchemy = "^2.0.36"
+psycopg2 = "2.9.10"
+aiofiles = "^24.1.0"
+pymupdf = "^1.25.0"
+glob2 = "^0.7"
+alembic = "^1.14.0"
+pdf2image = "^1.17.0"
+mako = "1.3.6"
+sqlite-vss = "^0.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
