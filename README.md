@@ -2,7 +2,7 @@
 
 This project consists of two main components:
 1. **Frontend** - Angular application
-2. **Core Service** - Backend API
+2. **Backend** - Backend API
 
 The project can be built and started using Docker Compose after following the steps below.
 
