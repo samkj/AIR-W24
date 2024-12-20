@@ -6,7 +6,7 @@ from endpoints import *
 from endpoints.bot_endpoint import bot_endpoint_router
 from endpoints.topic_endpoint import topic_endpoint_router
 
-app = FastAPI(title="CORE AI Service", docs_url="/api/docs")
+app = FastAPI(title="Backend", docs_url="/api/docs")
 
 app.add_middleware(
     CORSMiddleware,
