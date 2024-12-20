@@ -1,4 +1,3 @@
-import sqlite_vss
 from sqlalchemy import event, create_engine
 
 from models.base import Base

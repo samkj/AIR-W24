@@ -7,3 +7,7 @@ core_database.db
 poetry.lock
 /.env
 /poetry.lock
+.DS_Store
+endpoints/__pycache__
+models/__pycache__
+alembic/__pycache__
