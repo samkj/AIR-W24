@@ -7,7 +7,7 @@ from .document import Document
 from .chunk import KBChunk
 
 engine = create_engine(
-    "sqlite:///./core_database.db",
+    "sqlite:///./knowledgebase/backend.db",
     connect_args={"check_same_thread": False},
     echo=True
 )

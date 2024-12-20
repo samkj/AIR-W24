@@ -174,6 +174,7 @@ export class TopicService {
         })
       );
   }
+
   updateTopic(topic: Topic) {
     return this.http.put(`${this.baseUrl}/topic/${topic.uuid}`, topic).pipe(
       tap(() => {
@@ -212,12 +213,6 @@ export class TopicService {
 
   getDocuments(topicUuid: string): Observable<Document[]> {
     return this.http.get<Document[]>(`${this.baseUrl}/topic/${topicUuid}/document`);
-  }
-
-  downloadPreview(documentUuid: string): Observable<Blob> {
-    return this.http.get(`${this.baseUrl}/document/${documentUuid}/preview`, {
-      responseType: 'blob'
-    });
   }
 
   downloadPdf(documentUuid: string): Observable<Blob> {

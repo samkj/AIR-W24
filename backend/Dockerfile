@@ -17,6 +17,6 @@ RUN poetry install --no-dev
 
 COPY . /app
 
-EXPOSE 8082
+EXPOSE 8083
 
 CMD ["python", "main.py"]

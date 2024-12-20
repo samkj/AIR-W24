@@ -1,7 +1,9 @@
 services:
-  core_service:
+  backend:
     build:
       context: ./backend
+    volumes:
+      - ./data/backend:/app/knowledgebase
     ports:
       - "8083:8083"
 

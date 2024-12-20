@@ -82,7 +82,7 @@ async def add_topic(uuid: str, topic: TopicModel, db: Session = Depends(get_db))
     db.add(db_topic)
     db.commit()
 
-    return {"status": "Success"}
+    return TopicModel.from_orm(db_topic)
 
 
 @topic_endpoint_router.put("/topic/{uuid}")
@@ -120,7 +120,7 @@ async def get_documents_by_topic(topic_uuid: str, db: Session = Depends(get_db))
 
 
 
-@topic_endpoint_router.post("/topic/{topic_uuid}/document")
+@topic_endpoint_router.post("/document/topic/{topic_uuid}/upload")
 async def upload_document(topic_uuid: str, db: Session = Depends(get_db), file: UploadFile = File(...)):
     document = Document(linked_to=topic_uuid, name=file.filename, created_at=datetime.utcnow(),
                         updated_at=datetime.utcnow())
@@ -136,8 +136,8 @@ async def upload_document(topic_uuid: str, db: Session = Depends(get_db), file: 
 
     return {"status": "Success"}
 
-@topic_endpoint_router.get("/topic/{topic_uuid}/document/{document_uuid}")
-async def download_document(topic_uuid: str, document_uuid: str, db: Session = Depends(get_db)):
+@topic_endpoint_router.get("/document/{document_uuid}/download")
+async def download_document(document_uuid: str, db: Session = Depends(get_db)):
     file_path = os.path.join(KNOWLEDGEBASE_DIRECTORY, document_uuid)
 
     document = db.query(Document).filter(Document.uuid == document_uuid).first()
