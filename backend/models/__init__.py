@@ -4,7 +4,6 @@ from models.base import Base
 from models import *
 from .topic import Topic
 from .document import Document
-from .chunk import KBChunk
 
 engine = create_engine(
     "sqlite:///./knowledgebase/backend.db",
