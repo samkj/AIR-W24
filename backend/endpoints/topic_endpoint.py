@@ -146,6 +146,7 @@ async def upload_document(topic_uuid: str, db: Session = Depends(get_db), file: 
     chunked_documents = text_splitter.split_documents(documentPDF)
 
     for chunk in chunked_documents:
+        chunk.metadata["document_id"] = str(document.uuid)
         print(chunk.metadata)
 
     uuids = [str(uuid4()) for _ in range(len(chunked_documents))]
