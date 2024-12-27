@@ -24,17 +24,17 @@
       </div>
     </ng-template>
     <ng-template #empty>
-      <div>Ziehe Dateien hierher, um sie hochzuladen.</div>
+      <div>Drag files here to upload them.</div>
     </ng-template>
   </p-fileupload>
 }
 
 <div class="mt-4 flex justify-end gap-2">
-  <p-button label="Zurück" severity="secondary" (click)="ref.close()" />
+  <p-button label="Close" severity="secondary" (click)="ref.close()" />
   <p-button
     loadingIcon="pi pi-spin pi-spinner"
     [loading]="this.isUploading()"
     [disabled]="this.isEditMode() || this.uploadedFiles().length <= 0"
-    label="Speichern"
+    label="Save"
     (onClick)="this.save()" />
 </div>

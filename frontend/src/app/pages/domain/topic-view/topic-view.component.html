@@ -22,15 +22,9 @@
       severity="secondary"
       icon="pi pi-pencil"
       [text]="true"
-      pTooltip="Bearbeiten"
+      pTooltip="Edit"
       tooltipPosition="bottom"
       [routerLink]="['/domain/topic/edit', this.topic()?.uuid]" />
-    <p-button
-      severity="secondary"
-      icon="pi pi-link"
-      [text]="true"
-      pTooltip="Link kopieren"
-      tooltipPosition="bottom" />
   </div>
 </div>
 <div class="px-6 pt-6 overflow-auto h-full">
@@ -38,9 +32,6 @@
     {{ this.topic()?.title }}
   </div>
   <div class="mb-8">
-    <!--      <p-tag value="WIFO" class="mr-2" />-->
-    <!--      <p-tag value="Distanztour" severity="success" class="mr-2" />-->
-    <!--      <p-tag value="ALPE ADRIA" severity="warn" />-->
   </div>
   <p-editor
     id="viewEditor"
@@ -52,8 +43,7 @@
 
   @if (this.topic()?.documents?.length) {
     <div class="pt-12">
-      <h4 class="text-xl font-medium text-surface-900">Dokumente</h4>
-      <p class="mt-2 leading-6 text-surface-700">Untertile.</p>
+      <h4 class="text-xl font-medium text-surface-900">Documents</h4>
       <div
         class="mt-4 grid grid-cols-[repeat(auto-fill,minmax(210px,2fr))] justify-items-start gap-6">
         @for (file of this.topic()?.documents; track file.uuid) {

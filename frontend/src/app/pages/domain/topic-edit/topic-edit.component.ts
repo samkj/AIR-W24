@@ -30,7 +30,7 @@ import { TableModule } from 'primeng/table';
     Editor,
     SplitButton,
     ReactiveFormsModule,
-    TableModule,
+    TableModule
   ],
   templateUrl: './topic-edit.component.html',
   styleUrl: './topic-edit.component.scss',
@@ -59,7 +59,7 @@ export class TopicEditComponent implements OnInit {
 
   items = [
     {
-      label: 'Neues hochladen',
+      label: 'Upload new document',
       command: () => this.createFile()
     }
   ];
@@ -82,29 +82,31 @@ export class TopicEditComponent implements OnInit {
   createFile(): void {
     this.dialogService
       .open(TopicDocumentUploadDialogComponent, {
-        header: 'Dokument erstellen',
+        header: 'Create document',
         width: '50%',
         modal: true,
         closable: true,
         baseZIndex: 200,
         data: { mode: 'add', topic: this.topic() }
       })
-      .onClose.subscribe(document => this.topic()?.documents.push(document));
+      .onClose.subscribe(document => {
+        if(document != null) this.topic()?.documents.push(document)
+    });
   }
 
   deleteTopic(event: Event): void {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Möchten Sie wirklich das Thema löschen?',
-      header: 'Thema löschen',
+      message: 'Are u sure do delte the topic?',
+      header: 'Delete topic',
       icon: 'pi pi-info-circle',
       rejectButtonProps: {
-        label: 'Abbrechen',
+        label: 'Cancel',
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Löschen',
+        label: 'Delete',
         severity: 'danger'
       },
 
@@ -112,8 +114,8 @@ export class TopicEditComponent implements OnInit {
         this.topicService.deleteTopic(this.topic()!.uuid).subscribe(() => {
           this.messageService.add({
             severity: 'info',
-            summary: 'Bestätigung',
-            detail: 'Thema gelöscht'
+            summary: 'Confirmed',
+            detail: 'Topic deleted'
           });
           this.router.navigate(['/domain']);
         });

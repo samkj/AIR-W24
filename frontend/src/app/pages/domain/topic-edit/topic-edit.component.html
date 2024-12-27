@@ -22,14 +22,14 @@
       loadingIcon="pi pi-spin pi-spinner"
       [loading]="this.isSaving()"
       outlined
-      label="Aktualisieren"
+      label="Update"
       pTooltip=""
       tooltipPosition="bottom"
       (click)="this.saveTopic()"
       [disabled]="!this.topicForm.valid" />
     <p-button
       outlined
-      label="Schließen"
+      label="Close"
       text
       severity="secondary"
       pTooltip=""
@@ -39,7 +39,7 @@
       severity="danger"
       icon="pi pi-trash"
       [text]="true"
-      pTooltip="Löschen"
+      pTooltip="Delete"
       tooltipPosition="bottom"
       (click)="this.deleteTopic($event)" />
   </div>
@@ -47,32 +47,31 @@
 <div class="flex-1 px-6 pt-6 overflow-auto h-full" [formGroup]="this.topicForm">
   <div
     class="mb-4 flex flex-col gap-2 border-l-[8px] border-primary px-6 text-2xl font-medium text-surface-900">
-    <label for="title" class="text-base">Titel</label>
+    <label for="title" class="text-base">Title</label>
     <input
       id="title"
       class="w-3/4"
       pInputText
       formControlName="title"
-      placeholder="Geben Sie einen Titel für diese Seite ein" />
+      placeholder="Enter a Title for This Page" />
   </div>
 
-  <p-editor placeholder="Eine Allgemeine Beschreibung dieses Themenbereiches…" formControlName="description" [style]="{ height: '300px', fontSize: '16px' }" />
+  <p-editor placeholder="A General Description of This Topic Area…" formControlName="description" [style]="{ height: '300px', fontSize: '16px' }" />
 
   <p-divider></p-divider>
 
   <div class="flex items-center justify-between pt-12">
     <div>
-      <h4 class="text-xl font-medium text-surface-900">Dokumente</h4>
-      <p class="mt-2 leading-6 text-surface-700">Untertitle</p>
+      <h4 class="text-xl font-medium text-surface-900">Documents</h4>
     </div>
     <p-splitbutton
       (onClick)="createFile()"
       severity="secondary"
-      label="Dokument hinzufügen"
+      label="Create document"
       [model]="items" />
   </div>
   <div
-    class="mt-4 grid grid-cols-[repeat(auto-fill,minmax(210px,2fr))] justify-items-start gap-6">
+    class="mt-4 mb-10 grid grid-cols-[repeat(auto-fill,minmax(210px,2fr))] justify-items-start gap-6">
     @for (file of this.topic()?.documents; track file.uuid) {
       <app-topic-document-item
         [topic]="topic()!"

@@ -1,10 +1,8 @@
-import { NgClass } from '@angular/common';
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Button } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Skeleton } from 'primeng/skeleton';
 import { TieredMenu } from 'primeng/tieredmenu';
 import { Document } from '../../models/document.model';
 import { Topic } from '../../models/topic.model';
@@ -16,7 +14,7 @@ import {
 @Component({
   selector: 'app-topic-document-item',
   standalone: true,
-  imports: [Button, TieredMenu, DialogModule, NgClass, Skeleton],
+  imports: [Button, TieredMenu, DialogModule],
   templateUrl: './topic-document-item.component.html',
   styleUrl: './topic-document-item.component.scss'
 })
@@ -34,7 +32,7 @@ export class TopicDocumentItemComponent implements OnInit {
   items = computed(() => {
     return [
       {
-        label: 'Herunterladen',
+        label: 'Download',
         icon: 'pi pi-download',
         command: () => {
           this.topicService.downloadPdf(this.file().uuid).subscribe(blob => {
@@ -53,23 +51,23 @@ export class TopicDocumentItemComponent implements OnInit {
         }
       },
       {
-        label: 'Löschen',
+        label: 'Delete',
         visible: this.editMode() && this.file()?.topicUuid != null &&
           this.file()?.topicUuid == this.topic().uuid,
         icon: 'pi pi-trash',
         command: () => {
           this.confirmationService.confirm({
-            message: 'Möchten Sie das Dokument wirklich löschen?',
-            header: 'Dokument löschen',
+            message: 'Are u sure to delete the document?',
+            header: 'Delete document',
             icon: 'pi pi-info-circle',
             rejectLabel: 'Cancel',
             rejectButtonProps: {
-              label: 'Abbrechen',
+              label: 'Close',
               severity: 'secondary',
               outlined: true
             },
             acceptButtonProps: {
-              label: 'Löschen',
+              label: 'Delete',
               severity: 'danger'
             },
 
@@ -79,7 +77,6 @@ export class TopicDocumentItemComponent implements OnInit {
       }
     ];
   });
-  previewLoading = signal(true);
 
   ngOnInit(): void {
   }
@@ -118,7 +115,6 @@ export class TopicDocumentItemComponent implements OnInit {
   }
 
   getMimeTypeIcon(name: string): string {
-    // TODO: host icons with angular
     if (name.includes('.pdf')) return 'https://www.svgrepo.com/show/28209/pdf.svg';
     if (name.includes('.xlsx'))
       return 'https://fqjltiegiezfetthbags.supabase.co/storage/v1/render/image/public/block.images/blocks/file/excel.svg';
