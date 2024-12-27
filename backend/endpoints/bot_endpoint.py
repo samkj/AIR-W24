@@ -1,6 +1,11 @@
+import json
+from typing import AsyncGenerator
+
 from fastapi import APIRouter
 from langchain_mistralai import ChatMistralAI
 from langchain_ollama import ChatOllama
+from sqlalchemy.testing.suite.test_reflection import metadata
+from starlette.responses import StreamingResponse
 
 from endpoints import *
 
@@ -26,16 +31,51 @@ def bot_request(query: str, model: str):
         )
 
     agent_executor = create_react_agent(llm, [retrieve])
+    input_message = query
 
-    input_message = (
-        query
-    )
+    async def token_stream() -> AsyncGenerator[str, None]:
+        last_event = None
 
-    for event in agent_executor.stream(
-            {"messages": [{"role": "user", "content": input_message}]},
-            stream_mode="values"
-    ):
-        event["messages"][-1].pretty_print()
+        for event in agent_executor.stream(
+                {"messages": [{"role": "user", "content": input_message}]},
+                stream_mode="values"
+        ):
+            last_event = event
+
+            current_event = event["messages"][-1]
+            if current_event.type != "ai":
+                continue
+
+            text_chunk = current_event.content
+            for word in text_chunk.split():
+                formatted_event = {
+                    "event": "message",
+                    "answer": word
+                }
+                yield f"data: {json.dumps(formatted_event)}\n\n"
+
+        artifacts = []
+        if last_event:
+            for message in last_event["messages"]:
+                if message.type == "tool" and hasattr(message, "artifact"):
+                    for artifact in message.artifact:
+                        artifact_data = {
+                            "id": artifact.id,
+                            "metadata": artifact.metadata,
+                            "page_content": artifact.page_content
+                        }
+                        artifacts.append(artifact_data)
+
+        metadata = {
+            "artifacts": artifacts
+        }
+        completed_event = {
+            "event": "message_end",
+            "metadata": metadata
+        }
+        yield f"data: {json.dumps(completed_event)}\n\n"
+
+    return StreamingResponse(token_stream(), media_type="text/event-stream")
 
 
 @tool(response_format="content_and_artifact")
