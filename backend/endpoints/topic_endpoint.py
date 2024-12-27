@@ -1,8 +1,11 @@
 from http.client import HTTPException
 from urllib.parse import quote
+from uuid import uuid4
 
 import aiofiles
 from fastapi import APIRouter, Depends, UploadFile, File
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from endpoints import *
 from fastapi.responses import FileResponse
@@ -128,11 +131,27 @@ async def upload_document(topic_uuid: str, db: Session = Depends(get_db), file: 
     db.commit()
     db.refresh(document)
 
-    file_path = os.path.join(KNOWLEDGEBASE_DIRECTORY, document.uuid)
+    vector_store: FAISS = get_vector_store()
+    file_path = os.path.join(KNOWLEDGEBASE_DIRECTORY, file.filename)
 
     async with aiofiles.open(file_path, "wb") as f:
         content = await file.read()
         await f.write(content)
+
+    loader = PyPDFLoader(file_path)
+
+    document = loader.load()
+
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+    chunked_documents = text_splitter.split_documents(document)
+
+    for chunk in chunked_documents:
+        print(chunk.metadata)
+
+    uuids = [str(uuid4()) for _ in range(len(chunked_documents))]
+
+    vector_store.add_documents(documents=chunked_documents, ids=uuids)
+    vector_store.save_local(FAISS_INDEX_DIR)
 
     return {"status": "Success"}
 

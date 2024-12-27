@@ -9,7 +9,9 @@ import { TieredMenu } from 'primeng/tieredmenu';
 import { Document } from '../../models/document.model';
 import { Topic } from '../../models/topic.model';
 import { TopicService } from '../../services/topic.service';
-import { TopicDocumentPdfPreviewDialogComponent } from '../topic-document-pdf-preview-dialog/topic-document-pdf-preview-dialog.component';
+import {
+  TopicDocumentPdfPreviewDialogComponent
+} from '../topic-document-pdf-preview-dialog/topic-document-pdf-preview-dialog.component';
 
 @Component({
   selector: 'app-topic-document-item',
@@ -80,10 +82,6 @@ export class TopicDocumentItemComponent implements OnInit {
   previewLoading = signal(true);
 
   ngOnInit(): void {
-    this.topicService.downloadPreview(this.file().uuid).subscribe(blob => {
-      this.imageUrl.set(URL.createObjectURL(blob));
-      this.previewLoading.set(false);
-    });
   }
 
   openView() {
