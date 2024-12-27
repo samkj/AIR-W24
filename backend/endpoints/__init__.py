@@ -85,22 +85,7 @@ class TopicModel(BaseModel):
 class DocumentModel(BaseModel):
     uuid: str
     name: str
-    linked_to: Optional[str] = None
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        orm_mode = True
-        from_attributes = True
-
-
-class DocumentChunkModel(BaseModel):
-    uuid: str
-    content: str
-    embedding: str
-    type: str
-    document_uuid: Optional[str]
-    topic_uuid: Optional[str]
+    topicUuid: Optional[str] = None
     created_at: datetime
     updated_at: datetime
 
