@@ -51,7 +51,7 @@ async def get_topic(uuid: str, db: Session = Depends(get_db)):
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
 
-    linked_documents = db.query(Document).filter(Document.linked_to == uuid).all()
+    linked_documents = db.query(Document).filter(Document.topicUuid == uuid).all()
 
     all_documents = linked_documents
 
@@ -125,14 +125,14 @@ async def get_documents_by_topic(topic_uuid: str, db: Session = Depends(get_db))
 
 @topic_endpoint_router.post("/document/topic/{topic_uuid}/upload")
 async def upload_document(topic_uuid: str, db: Session = Depends(get_db), file: UploadFile = File(...)):
-    document = Document(linked_to=topic_uuid, name=file.filename, created_at=datetime.utcnow(),
+    document = Document(topicUuid=topic_uuid, name=file.filename, created_at=datetime.utcnow(),
                         updated_at=datetime.utcnow())
     db.add(document)
     db.commit()
     db.refresh(document)
 
     vector_store: FAISS = get_vector_store()
-    file_path = os.path.join(KNOWLEDGEBASE_DIRECTORY, file.filename)
+    file_path = os.path.join(KNOWLEDGEBASE_DIRECTORY, document.uuid)
 
     async with aiofiles.open(file_path, "wb") as f:
         content = await file.read()
@@ -140,10 +140,10 @@ async def upload_document(topic_uuid: str, db: Session = Depends(get_db), file: 
 
     loader = PyPDFLoader(file_path)
 
-    document = loader.load()
+    documentPDF = loader.load()
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
-    chunked_documents = text_splitter.split_documents(document)
+    chunked_documents = text_splitter.split_documents(documentPDF)
 
     for chunk in chunked_documents:
         print(chunk.metadata)
@@ -153,7 +153,7 @@ async def upload_document(topic_uuid: str, db: Session = Depends(get_db), file: 
     vector_store.add_documents(documents=chunked_documents, ids=uuids)
     vector_store.save_local(FAISS_INDEX_DIR)
 
-    return {"status": "Success"}
+    return DocumentModel.from_orm(document)
 
 @topic_endpoint_router.get("/document/{document_uuid}/download")
 async def download_document(document_uuid: str, db: Session = Depends(get_db)):

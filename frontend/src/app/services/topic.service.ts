@@ -15,7 +15,6 @@ export class TopicService {
   private http = inject(HttpClient);
   private topicsSubject: BehaviorSubject<Topic[]> = new BehaviorSubject<Topic[]>([]);
   private topicsObservable = this.topicsSubject.asObservable();
-  private topics = toSignal(this.topicsSubject, { initialValue: [] });
 
   private changeSelectedTopicSubject: BehaviorSubject<Topic | null> = new BehaviorSubject<Topic | null>(null);
   private changeSelectedTopicObservable = this.changeSelectedTopicSubject.asObservable();
@@ -88,14 +87,6 @@ export class TopicService {
     );
   }
 
-  getTopicDocuments(uuid: string): Observable<Document[]> {
-    return this.http.get<Document[]>(`${this.baseUrl}/topic/${uuid}/documents`).pipe();
-  }
-
-  getAllDocuments(): Observable<Document[]> {
-    return this.http.get<Document[]>(`${this.baseUrl}/document`);
-  }
-
   deleteDocumentByUUID(uuid: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/document/${uuid}`);
   }
@@ -140,7 +131,7 @@ export class TopicService {
     }
     return this.http
       .post<Topic>(`${this.baseUrl}/topic${topicPath}`, {
-        title: 'Entwurf-' + formatDate(new Date(), 'yyyy-MM-dd', 'en-US') + " neues Thema"
+        title: 'Draft-' + formatDate(new Date(), 'yyyy-MM-dd', 'en-US') + " new Topic"
       })
       .pipe(
         tap((newTopic: Topic) => {
@@ -209,10 +200,6 @@ export class TopicService {
     formData.append('file', file);
 
     return this.http.post<Document>(`${this.baseUrl}/document/topic/${topicUuid}/upload`, formData);
-  }
-
-  getDocuments(topicUuid: string): Observable<Document[]> {
-    return this.http.get<Document[]>(`${this.baseUrl}/topic/${topicUuid}/document`);
   }
 
   downloadPdf(documentUuid: string): Observable<Blob> {

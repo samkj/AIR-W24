@@ -17,7 +17,7 @@ export class ToolService {
   }
 
   search(body: { query: string; conversation_id: string | 'conversation_id', user: "default-user" }): Observable<HttpEvent<string>> {
-    return this.http.post(this.baseUrl + '/stream', body, {
+    return this.http.post(this.baseUrl + '/api/bot/request', body, {
       observe: 'events',
       reportProgress: true,
       responseType: 'text'

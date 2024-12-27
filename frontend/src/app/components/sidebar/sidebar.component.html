@@ -1,5 +1,5 @@
 <div [ngClass]="{'pl-6': !collapsed}"
-     class="flex items-center justify-between w-full text-surface-700 py-1 border-b-2 shadow-sm h-16">
+     class="flex items-center justify-center w-full text-surface-700 py-1 border-b-2 shadow-sm h-16">
   <div>G19</div>
 </div>
 @if (!collapsed) {
@@ -20,7 +20,7 @@
         [filter]="true"
         selectionMode="single"
         [(selection)]="this.selectedFile"
-        filterPlaceholder="Nach Titel suchen"
+        filterPlaceholder="Search for title"
         (onNodeSelect)="this.viewTopic()"
         (onNodeDrop)="this.onNodeDrop($event)"
         [draggableNodes]="true"
@@ -50,7 +50,7 @@
             @if (node.hover) {
               <button
                 type="button"
-                pTooltip="Unterthema erstellen"
+                pTooltip="Create Subtopic"
                 class="absolute right-0 z-50 border-none h-8 cursor-pointer"
                 (click)="createTopic(node)"
               >
@@ -74,7 +74,7 @@
         icon="pi pi-plus"
         severity="secondary"
         text
-        label="Hinzufügen"
+        label="Add topic"
         [loading]="topicCreationLoading"
         (click)="createTopic()"></p-button>
     </ul>

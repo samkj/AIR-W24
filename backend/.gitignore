@@ -12,3 +12,4 @@ endpoints/__pycache__
 models/__pycache__
 alembic/__pycache__
 /faiss_index
+.idea/
