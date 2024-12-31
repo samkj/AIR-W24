@@ -13,6 +13,7 @@ from models import engine
 import faiss
 from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain_community.vectorstores import FAISS
+from langchain_mistralai import MistralAIEmbeddings
 
 import getpass
 import os
@@ -31,13 +32,17 @@ def get_db():
         db.close()
 
 
-
 # Set the OpenAI API key
 # if not os.environ.get("OPENAI_API_KEY"):
 #     os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter API key for OpenAI: ")
 
 # Initialize embeddings
-embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+
+if os.environ["OPENAI_API_KEY"]:
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+elif os.environ["MISTRAL_API_KEY"]:
+    embeddings = MistralAIEmbeddings(model="mistral-embed")
+
 
 # Directory to store the FAISS index
 FAISS_INDEX_DIR = "./knowledgebase/faiss_index"
@@ -46,6 +51,7 @@ if os.environ["OLLAMA_HOST"]:
     OLLAMA_HOST = os.environ["OLLAMA_HOST"]
 else:
     OLLAMA_HOST = "http://localhost:11434"
+
 
 def get_vector_store():
     if os.path.exists(FAISS_INDEX_DIR):

@@ -8,8 +8,8 @@ services:
       - "8083:8083"
     environment:
       OLLAMA_HOST: http://ollama:11434
-      OPENAI_API_KEY: xxx
-      MISTRAL_API_KEY: xxx
+      MISTRAL_API_KEY: ${MISTRAL_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     depends_on:
      - ollama
 
