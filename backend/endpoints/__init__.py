@@ -40,8 +40,8 @@ def get_db():
 
 if os.environ["OPENAI_API_KEY"]:
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
-elif os.environ["MISTRAL_API_KEY"]:
-    embeddings = MistralAIEmbeddings(model="mistral-embed")
+# elif os.environ["MISTRAL_API_KEY"]:
+#    embeddings = MistralAIEmbeddings(model="mistral-embed")
 
 
 # Directory to store the FAISS index
