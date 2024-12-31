@@ -3,12 +3,26 @@ services:
     build:
       context: ./backend
     volumes:
-      - ./data/backend:/app/knowledgebase
+      - ./data/knowledgebase:/app/knowledgebase
     ports:
       - "8083:8083"
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    depends_on:
+     - ollama
 
   frontend:
     build:
       context: ./frontend
     ports:
       - "4200:80"
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./data/ollama:/root/.ollama
+      - ./model_files:/model_files
+    entrypoint: ["/bin/sh", "/model_files/run_ollama.sh"]

@@ -5,26 +5,20 @@
     </div>
     <span class="pi pi-hammer"></span>
     <div class="text-surface-900 font-bold text-sm">
-      Suche
+      Search
     </div>
   </div>
 
   <div class="flex flex-col lg:flex-row lg:items-center gap-4">
     <p-inputgroup>
       <p-inputgroup-addon>
-        <i [ngClass]="{'text-primary-600': topicFilter}" class="pi pi-filter text-surface-500"
+        <i [ngClass]="{'text-primary-600': topicFilter}" class="pi pi-microchip-ai text-surface-500"
            (click)="topicFilter = !topicFilter"></i>
       </p-inputgroup-addon>
       @if (topicFilter) {
         <p-inputgroup-addon>
           <div class="card flex justify-center">
-            <p-treeselect
-              class="md:w-60 w-full" containerStyleClass="w-full"
-              [filter]="true" [filterInputAutoFocus]="true"
-              [(ngModel)]="this.selectTopic"
-              [options]="this.treeNodes()"
-              selectionMode="checkbox"
-              placeholder="Dokumente auswählen"></p-treeselect>
+            <p-select [options]="models" [(ngModel)]="selectedModel" placeholder="Select model" class="w-full md:w-56" />
           </div>
         </p-inputgroup-addon>
       }
@@ -46,24 +40,12 @@
           <p class="mt-1">
             {{ kiContent }}
           </p>
-          <p-divider></p-divider>
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-2">
-              <p-tag severity="secondary">BETA</p-tag>
-              <p class="text-sm text-surface-500">Die KI befindet sich noch in der Testphase (Beta), und die Qualität
-                der Inhalte kann variieren.</p>
-            </div>
-            <div class="flex items-end gap-2 text-[8px] font-bold text-surface-500">
-              <img src="/datamatrix-logo.svg" class="h-12 w-12" />
-            </div>
-          </div>
         }
       </div>
     </div>
   }
   <div class="py-6">
-    <div class="text-sm font-bold mb-2">Es werden {{ retrievedBlocks.length }} von {{ retrievedBlocks.length }}
-      Ergebnissen angezeigt.
+    <div class="text-sm font-bold mb-2">Displaying {{ retrievedBlocks.length }} of {{ retrievedBlocks.length }} results.
     </div>
 
     <div class="flex flex-col gap-4 mt-8">
@@ -91,10 +73,8 @@
             <a class="text-surface-500 font-semibold cursor-pointer" (click)="openBlock(searchBlock)">
               {{ searchBlock.title }}
             </a>
-            <div class="text-sm text-gray-500"><a [routerLink]="['/domain']"
+            <div class="text-sm text-gray-500"><a [routerLink]="['/domain/topic', searchBlock.topic.uuid]"
                                                   class="">{{ searchBlock.topic.title }}</a>
-              •
-              Aktualisiert 4. Dezember 2024
             </div>
             <p class="text-gray-700 mt-2">
               {{ searchBlock.content_preview }}

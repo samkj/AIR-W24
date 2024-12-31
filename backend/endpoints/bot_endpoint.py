@@ -1,3 +1,4 @@
+import asyncio
 import json
 from typing import AsyncGenerator
 
@@ -17,18 +18,36 @@ bot_endpoint_router = APIRouter()
 
 
 @bot_endpoint_router.post("/bot/request")
-def bot_request(query: str, model: str):
+async def bot_request(query: str, model: str):
     llm = None
     if model == "gpt-4o-mini":
         llm = ChatOpenAI(model="gpt-4o-mini")
     elif model == "ollama-mistral":
-        llm = ChatOllama(model="mistral")
+        llm = ChatOllama(model="ksamirk/customer-support-quantized:latest", base_url=OLLAMA_HOST)
     elif model == "mistral-large-latest":
         llm = ChatMistralAI(
             model="mistral-large-latest",
             temperature=0,
             max_retries=2,
         )
+
+    if model == "ollama-mistral":
+        async def ollama_stream() -> AsyncGenerator[str, None]:
+            async for chunk in llm.astream(query):
+                formatted_event = {
+                    "event": "message",
+                    "answer": chunk.content
+                }
+                yield f"data: {json.dumps(formatted_event)}\n\n"
+
+            completed_event = {
+                "event": "message_end",
+                "metadata": {}
+            }
+            yield f"data: {json.dumps(completed_event)}\n\n"
+
+        return StreamingResponse(ollama_stream(), media_type="text/event-stream")
+
 
     agent_executor = create_react_agent(llm, [retrieve])
     input_message = query
@@ -50,9 +69,10 @@ def bot_request(query: str, model: str):
             for word in text_chunk.split():
                 formatted_event = {
                     "event": "message",
-                    "answer": word
+                    "answer": f"{word} "
                 }
                 yield f"data: {json.dumps(formatted_event)}\n\n"
+                await asyncio.sleep(0)
 
         artifacts = []
         if last_event:
@@ -74,6 +94,7 @@ def bot_request(query: str, model: str):
             "metadata": metadata
         }
         yield f"data: {json.dumps(completed_event)}\n\n"
+        await asyncio.sleep(0)
 
     return StreamingResponse(token_stream(), media_type="text/event-stream")
 

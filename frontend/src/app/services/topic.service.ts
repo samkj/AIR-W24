@@ -1,10 +1,9 @@
 import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, delay, Observable, of, tap } from 'rxjs';
 import { Document } from '../models/document.model';
-import { KnowledgeType, SearchRetrieval } from '../models/search-retrieval.model';
+import { SearchRetrieval } from '../models/search-retrieval.model';
 import { Topic } from '../models/topic.model';
 import { environment } from '../../environments/environment';
 
@@ -20,42 +19,6 @@ export class TopicService {
   private changeSelectedTopicObservable = this.changeSelectedTopicSubject.asObservable();
 
   private baseUrl = environment.apiUrl;
-
-  mockSearchRetrieval: SearchRetrieval[] = [
-    {
-      type: KnowledgeType.TOPIC,
-      title: 'RM 88 Alpe Adria Villach Adria',
-      topic: {
-        uuid: '06ca581f-b314-4658-9a62-3a897165efb6',
-        title: 'RM 88 Alpe Adria Villach Adria'
-      },
-      content_preview:
-        'Ich habe diesen Onboarding-Plan zusammengestellt, um Ihnen den Einstieg in Ihre neue Rolle als im Team zu erleichtern...Nach 60 Tagen sind Sie aktiv ins Arbeitsleben eingebunden.',
-      score: 33
-    },
-    {
-      type: KnowledgeType.DOCUMENT,
-      title: 'WIFO Sternradtour_Rosentaler Hof 2024_DE_OK.pdf',
-      topic: {
-        uuid: '06ca581f-b314-4658-9a62-3a897165efb6',
-        title: 'RM 88 Alpe Adria Villach Adria'
-      },
-      content_preview:
-        'Jedes Gepäckstück muss mit einer dunkelblauen Gepäckschleife versehen sein (Strichcode bitte gut sichtbar).9Auf jeder Schleife ist der Eigentümer, die Buchungsnummer sowie die Ge-samtanzahl  der  Gepäckstücke  pro  Buchung...',
-      score: 33
-    },
-    {
-      type: KnowledgeType.FAQ,
-      title: 'FAQ 1',
-      topic: {
-        uuid: '06ca581f-b314-4658-9a62-3a897165efb6',
-        title: 'RM 88 Alpe Adria Villach Adria'
-      },
-      faq_uuid: '66af6f2a-478e-4dce-8b00-f12b64e37f8c',
-      content_preview: 'jkslöföskdlfjsjl',
-      score: 33
-    }
-  ];
 
   constructor() {
     this.refreshTree();
@@ -189,10 +152,6 @@ export class TopicService {
         this.refreshTree();
       })
     );
-  }
-
-  retrievalKnowledge(query: string, topic_uuid: string): Observable<SearchRetrieval[]> {
-    return of(this.mockSearchRetrieval).pipe(delay(1000));
   }
 
   uploadDocument(topicUuid: string, file: File): Observable<Document> {

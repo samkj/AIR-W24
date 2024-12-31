@@ -28,18 +28,16 @@ export class ToolService {
   private isConnected = false;
   private controller!: EventSourceController;
 
-  connect(body: { query: string; conversation_id: string, user: string, response_mode: string, inputs: string[] | null }): Observable<MessageEvent> {
+  connect(body: { query: string; model: string}): Observable<MessageEvent> {
     const subject = new ReplaySubject<MessageEvent>(1);
 
     this.close();
 
-    this.eventSource = new EventSourcePlus("xxx", {
+    this.eventSource = new EventSourcePlus(this.baseUrl + `/bot/request?query=${encodeURIComponent(body.query)}&model=${encodeURIComponent(body.model)}`, {
       maxRetryCount: 1,
       method: 'post',
-      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer xxx`,
       },
     });
 
@@ -86,7 +84,7 @@ export class ToolService {
   }
 
   private reconnect(
-    body: { query: string; conversation_id: string, user: string, response_mode: string, inputs: string[] | null },
+    body: { query: string; model: string},
     subject: ReplaySubject<MessageEvent>
   ): void {
     if (this.isConnected) return;

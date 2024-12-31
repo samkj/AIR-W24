@@ -19,6 +19,7 @@ import { TreeNode } from 'primeng/api';
 import { Document } from '../../../models/document.model';
 import { Subscription } from 'rxjs';
 import { ToolService } from '../../../services/tool.service';
+import { Select } from 'primeng/select';
 
 @Component({
   selector: 'app-search',
@@ -34,7 +35,8 @@ import { ToolService } from '../../../services/tool.service';
     Tag,
     RouterLink,
     Skeleton,
-    TreeSelect
+    TreeSelect,
+    Select
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'
@@ -86,6 +88,7 @@ export class SearchComponent {
     this.askKi = true;
     this.isStyleActive = true;
     this.kiContent = '';
+    this.retrievedBlocks = [];
 
     if (this.query === '') {
       return;
@@ -96,10 +99,7 @@ export class SearchComponent {
     this.searchToolSubscription = this.toolService
       .connect({
         query: this.query,
-        conversation_id: '',
-        user: 'default-user',
-        response_mode: 'streaming',
-        inputs: null
+        model: this.selectedModel
       })
       .subscribe({
         next: event => {
@@ -111,21 +111,24 @@ export class SearchComponent {
             setTimeout(() => {
               this.isStyleActive = false;
             }, 1500);
-            this.retrievedBlocks = data.metadata.retriever_resources.map((rr: any) => {
-              const retrievedBlock: SearchRetrieval = {
-                type: rr.document_name.includes('.pdf')
-                  ? KnowledgeType.DOCUMENT
-                  : KnowledgeType.TOPIC,
-                title: rr.document_name,
-                topic: {
-                  uuid: rr.document_id,
-                  title: rr.document_name
-                },
-                content_preview: rr.content,
-                score: rr.score
-              };
-              return retrievedBlock;
-            }).filter((r: SearchRetrieval) => r.score > 0.2);
+            this.retrievedBlocks = data.metadata.artifacts
+              .map((rr: any) => {
+                const retrievedBlock: SearchRetrieval = {
+                  type: rr.metadata.type == "PDF"
+                    ? KnowledgeType.DOCUMENT
+                    : KnowledgeType.TOPIC,
+                  title: rr.metadata.document_name,
+                  document_uuid: rr.metadata.document_id,
+                  topic: {
+                    uuid: rr.metadata.topic_uuid,
+                    title: rr.metadata.topic_name
+                  },
+                  content_preview: rr.page_content,
+                };
+                return retrievedBlock;
+              })
+
+            if(this.retrievedBlocks.length == 0){this.kiContent = "No answer"}
             this.searchToolSubscription?.unsubscribe();
           }
         },
@@ -136,17 +139,11 @@ export class SearchComponent {
   }
 
   protected readonly KnowledgeType = KnowledgeType;
-
-  retrieveBlocks() {
-    this.retrievedBlocks = [];
-    this.isLoading = true;
-    this.topicService.retrievalKnowledge(this.query, '').subscribe(blocks => {
-      this.retrievedBlocks = blocks;
-      this.isLoading = false;
-    });
-  }
+  models = ["gpt-4o-mini", "ollama-mistral", "mistral-large-latest"]
+  selectedModel: string = "gpt-4o-mini";
 
   openBlock(searchBlock: SearchRetrieval) {
+    console.log(searchBlock);
     switch (searchBlock.type) {
       case KnowledgeType.FAQ:
         this.router.navigate(['/domain/topic', searchBlock.topic.uuid]);
@@ -161,7 +158,7 @@ export class SearchComponent {
           closable: true,
           width: '70%',
           position: 'top',
-          data: { document_uuid: searchBlock.document_uuid },
+          data: { uuid: searchBlock.document_uuid },
           breakpoints: {
             '960px': '75vw',
             '640px': '90vw'
@@ -187,4 +184,5 @@ export class SearchComponent {
       collapsedIcon: 'pi pi-folder'
     };
   }
+
 }

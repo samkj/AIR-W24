@@ -40,8 +40,12 @@ def get_db():
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 
 # Directory to store the FAISS index
-FAISS_INDEX_DIR = "faiss_index"
+FAISS_INDEX_DIR = "./knowledgebase/faiss_index"
 
+if os.environ["OLLAMA_HOST"]:
+    OLLAMA_HOST = os.environ["OLLAMA_HOST"]
+else:
+    OLLAMA_HOST = "http://localhost:11434"
 
 def get_vector_store():
     if os.path.exists(FAISS_INDEX_DIR):

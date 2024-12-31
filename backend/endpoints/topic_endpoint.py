@@ -145,9 +145,14 @@ async def upload_document(topic_uuid: str, db: Session = Depends(get_db), file: 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     chunked_documents = text_splitter.split_documents(documentPDF)
 
+    topic = db.query(Topic).filter(Topic.uuid == topic_uuid).first()
+
     for chunk in chunked_documents:
         chunk.metadata["document_id"] = str(document.uuid)
-        print(chunk.metadata)
+        chunk.metadata["document_name"] = str(document.name)
+        chunk.metadata["topic_uuid"] = str(topic_uuid)
+        chunk.metadata["topic_name"] = str(topic.title)
+        chunk.metadata["type"] = "PDF"
 
     uuids = [str(uuid4()) for _ in range(len(chunked_documents))]
 
@@ -185,14 +190,14 @@ async def delete_topic(topic_uuid: str, db: Session = Depends(get_db)):
     all_related_topic_uuids.append(topic_uuid)
 
     for related_topic_uuid in all_related_topic_uuids:
-        documents = db.query(Document).filter(Document.linked_to == related_topic_uuid).all()
+        documents = db.query(Document).filter(Document.topicUuid == related_topic_uuid).all()
 
         for document in documents:
             kb_path = os.path.join(KNOWLEDGEBASE_DIRECTORY, document.uuid)
             if os.path.exists(kb_path):
                 os.remove(kb_path)
 
-        db.query(Document).filter(Document.linked_to == related_topic_uuid).delete()
+        db.query(Document).filter(Document.topicUuid == related_topic_uuid).delete()
 
     db.query(Topic).filter(Topic.uuid.in_(all_related_topic_uuids)).delete()
 
@@ -200,16 +205,29 @@ async def delete_topic(topic_uuid: str, db: Session = Depends(get_db)):
     return {"status": "Success"}
 
 
-@topic_endpoint_router.delete("/topic/{topic_uuid}/document/{document_uuid}")
-async def delete_document(topic_uuid: str, document_uuid: str, db: Session = Depends(get_db)):
+@topic_endpoint_router.delete("/document/{document_uuid}")
+async def delete_document(document_uuid: str, db: Session = Depends(get_db)):
     document = db.query(Document).filter(Document.uuid == document_uuid).first()
 
     db.delete(document)
-    db.commit()
 
     kb_path = os.path.join(KNOWLEDGEBASE_DIRECTORY, document.uuid)
     if os.path.exists(kb_path):
         os.remove(kb_path)
+
+    vector_store = get_vector_store()
+    chunks_to_remove = []
+
+    for doc_id, doc in vector_store.docstore._dict.items():
+        print(doc_id)
+        if doc.metadata.get("document_id") == document_uuid:
+            chunks_to_remove.append(doc_id)
+
+    if len(chunks_to_remove) > 0:
+        vector_store.delete(ids=chunks_to_remove)
+        vector_store.save_local(FAISS_INDEX_DIR)
+
+    db.commit()
 
     return {"status": "Success"}
 
