@@ -1,9 +1,11 @@
 #!/bin/bash
 
 echo "Starting Ollama server..."
-ollama serve &  # Start Ollama in the background
+ollama serve
 
 echo "Ollama is ready, starting the model..."
+
+ollama pull ksamirk/customer-support-quantized
 
 ollama run ksamirk/customer-support-quantized
 
