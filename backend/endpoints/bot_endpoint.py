@@ -14,6 +14,9 @@ from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
 from langchain_openai import ChatOpenAI
 
+from bs4 import BeautifulSoup
+
+
 bot_endpoint_router = APIRouter()
 
 
@@ -79,10 +82,12 @@ async def bot_request(query: str, model: str):
             for message in last_event["messages"]:
                 if message.type == "tool" and hasattr(message, "artifact"):
                     for artifact in message.artifact:
+                        tree = BeautifulSoup(artifact.page_content)
+                        plain_text = tree.get_text()
                         artifact_data = {
                             "id": artifact.id,
                             "metadata": artifact.metadata,
-                            "page_content": artifact.page_content
+                            "page_content": plain_text
                         }
                         artifacts.append(artifact_data)
 

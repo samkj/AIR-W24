@@ -11,6 +11,7 @@ from endpoints import *
 from fastapi.responses import FileResponse
 from models import *
 import mimetypes
+from langchain_core import documents
 
 topic_endpoint_router = APIRouter()
 
@@ -73,6 +74,8 @@ async def add_topic(topic: TopicModel, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_topic)
 
+    save_topic_chunks(db_topic)
+
     return TopicModel.from_orm(db_topic)
 
 
@@ -85,7 +88,29 @@ async def add_topic(uuid: str, topic: TopicModel, db: Session = Depends(get_db))
     db.add(db_topic)
     db.commit()
 
+    save_topic_chunks(db_topic)
+
     return TopicModel.from_orm(db_topic)
+
+def save_topic_chunks(topic: Topic):
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+
+    chunked_text = text_splitter.split_text(topic.description)
+    chunked_documents = []
+
+    for chunk in chunked_text:
+        chunked_documents.append(documents.Document(page_content=chunk, metadata={
+            "topic_uuid": str(topic.uuid),
+            "topic_name": str(topic.title),
+            "type": "TOPIC"
+        }))
+
+    uuids = [str(uuid4()) for _ in range(len(chunked_documents))]
+
+    if(len(chunked_documents) > 0):
+        vector_store = get_vector_store()
+        vector_store.add_documents(documents=chunked_documents, ids=uuids)
+        vector_store.save_local(FAISS_INDEX_DIR)
 
 
 @topic_endpoint_router.put("/topic/{uuid}")
@@ -96,6 +121,10 @@ async def update_topic(updated_topic: TopicModel, uuid: str, db: Session = Depen
     topic.parent_uuid = updated_topic.parent_uuid
 
     topic.updated_at = datetime.utcnow()
+
+    delete_topic_chunks(topic.uuid)
+
+    save_topic_chunks(topic)
 
     db.commit()
 
@@ -196,10 +225,14 @@ async def delete_topic(topic_uuid: str, db: Session = Depends(get_db)):
             kb_path = os.path.join(KNOWLEDGEBASE_DIRECTORY, document.uuid)
             if os.path.exists(kb_path):
                 os.remove(kb_path)
+            delete_document_chunks(document.uuid)
 
         db.query(Document).filter(Document.topicUuid == related_topic_uuid).delete()
 
     db.query(Topic).filter(Topic.uuid.in_(all_related_topic_uuids)).delete()
+
+    for topic_uuid in all_related_topic_uuids:
+        delete_topic_chunks(topic_uuid)
 
     db.commit()
     return {"status": "Success"}
@@ -215,19 +248,34 @@ async def delete_document(document_uuid: str, db: Session = Depends(get_db)):
     if os.path.exists(kb_path):
         os.remove(kb_path)
 
+    delete_document_chunks(document_uuid)
+
+    db.commit()
+
+    return {"status": "Success"}
+
+def delete_topic_chunks(topic_uuid: str):
     vector_store = get_vector_store()
     chunks_to_remove = []
 
     for doc_id, doc in vector_store.docstore._dict.items():
         print(doc_id)
-        if doc.metadata.get("document_id") == document_uuid:
+        if doc.metadata.get("topic_uuid") == topic_uuid and doc.metadata.get("type") == "TOPIC":
             chunks_to_remove.append(doc_id)
 
     if len(chunks_to_remove) > 0:
         vector_store.delete(ids=chunks_to_remove)
         vector_store.save_local(FAISS_INDEX_DIR)
 
-    db.commit()
+def delete_document_chunks(document_uuid: str):
+    vector_store = get_vector_store()
+    chunks_to_remove = []
 
-    return {"status": "Success"}
+    for doc_id, doc in vector_store.docstore._dict.items():
+        print(doc_id)
+        if doc.metadata.get("document_id") == document_uuid and doc.metadata.get("type") == "PDF":
+            chunks_to_remove.append(doc_id)
 
+    if len(chunks_to_remove) > 0:
+        vector_store.delete(ids=chunks_to_remove)
+        vector_store.save_local(FAISS_INDEX_DIR)
