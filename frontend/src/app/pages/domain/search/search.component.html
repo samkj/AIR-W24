@@ -33,7 +33,7 @@
   @if (askKi) {
     <div [ngClass]="{'border-animation': isStyleActive, 'border-2': !isStyleActive}"
          class="mt-4 example-1 rounded-md w-full">
-      <div [ngClass]="isStyleActive ? 'p-8' : 'pt-8 px-8 pb-2'" class="inner rounded-md bg-surface-0">
+      <div [ngClass]="isStyleActive ? 'p-8' : 'py-8 px-8'" class="inner rounded-md bg-surface-0">
         <div [ngClass]="{'hidden': !isStyleActive || kiContent != ''}" class="loader"></div>
         @if (kiContent != '') {
           <h2 class="text-sm font-bold text-surface-500">Antwort</h2>
