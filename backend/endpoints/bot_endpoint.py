@@ -108,7 +108,7 @@ async def bot_request(query: str, model: str):
 def retrieve(query: str):
     """Retrieve information related to a query."""
     vector_store: FAISS = get_vector_store()
-    retrieved_docs = vector_store.similarity_search(query, k=2)
+    retrieved_docs = vector_store.similarity_search(query, k=10)
     serialized = "\n\n".join(
         (f"Source: {doc.metadata}\n" f"Content: {doc.page_content}")
         for doc in retrieved_docs
