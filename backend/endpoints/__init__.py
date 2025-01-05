@@ -38,7 +38,9 @@ def get_db():
 
 # Initialize embeddings
 
-if os.environ["OPENAI_API_KEY"]:
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+
+if OPENAI_API_KEY != "":
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 # elif os.environ["MISTRAL_API_KEY"]:
 #    embeddings = MistralAIEmbeddings(model="mistral-embed")
@@ -47,10 +49,7 @@ if os.environ["OPENAI_API_KEY"]:
 # Directory to store the FAISS index
 FAISS_INDEX_DIR = "./knowledgebase/faiss_index"
 
-if os.environ["OLLAMA_HOST"]:
-    OLLAMA_HOST = os.environ["OLLAMA_HOST"]
-else:
-    OLLAMA_HOST = "http://localhost:11434"
+OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 
 
 def get_vector_store():
