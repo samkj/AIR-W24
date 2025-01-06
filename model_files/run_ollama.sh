@@ -10,9 +10,9 @@ done
 
 echo "Ollama is ready, starting the model..."
 
-ollama pull ksamirk/customer-support-quantized
+ollama pull ksamirk/mistral-ins-lora
 
-ollama run ksamirk/customer-support-quantized
+ollama run ksamirk/mistral-ins-lora
 
 while true; do
   sleep 1
