@@ -26,7 +26,7 @@ async def bot_request(query: str, model: str):
     if model == "gpt-4o-mini":
         llm = ChatOpenAI(model="gpt-4o-mini")
     elif model == "ollama-mistral":
-        llm = ChatOllama(model="ksamirk/customer-support-quantized:latest", base_url=OLLAMA_HOST)
+        llm = ChatOllama(model="ksamirk/mistral-ins-lora:latest", base_url=OLLAMA_HOST)
     elif model == "mistral-large-latest":
         llm = ChatMistralAI(
             model="mistral-large-latest",
