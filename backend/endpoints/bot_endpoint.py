@@ -69,6 +69,12 @@ async def bot_request(query: str, model: str):
                 continue
 
             text_chunk = current_event.content
+            if isinstance(text_chunk, list):
+                # Extract text from dictionaries
+                text_chunk = ' '.join(
+                    item['text'] for item in text_chunk if isinstance(item, dict) and 'text' in item
+                )
+
             for word in text_chunk.split():
                 formatted_event = {
                     "event": "message",
