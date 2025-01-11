@@ -1,0 +1,30 @@
+Question,Answer,Ollama Fintuned Mistral,Correct,RAG - Open AI Gpt-4o-mini,Correct.1,RAG - Mistral-Large-Latest,Correct.2
+Are my Bitcoins secured with Investment Shield insurance? Only answer yes or no.,No,No,1.0,No,1.0,No,1.0
+Does Investment Shield cover cryptocurrency? Only answer yes or no.,No,No,1.0,No,1.0,Yes,0.0
+I lost 40% of my Investment due to market loss do I get money from Investment Shield? Only answer yes or no.,Yes,Yes,1.0,No,0.0,No,0.0
+I am hospitalized after an accident. I have AlpenSicher Health Elite. Do I have to share a room with someone else? Only answer yes or no.,No,Yes,0.0,No,1.0,No,1.0
+I am hospitalized after an accident. I have AlpenSicher Health Elite. Do I  get a private room? Only answer yes or no.,Yes,Yes,1.0,Yes,1.0,Yes,1.0
+Does AlpenSicher Health Elite cover dental care? Only answer yes or no.,Yes,Yes,1.0,Yes,1.0,Yes,1.0
+Does AlpenSicher Health Elite have a emergency hotline? Only answer yes or no.,Yes,Yes,1.0,Yes,1.0,Yes,1.0
+Can you call the AlpenSicher Health Elite customer suport at 18:20? Only answer yes or no.,No,"No, the customer service hours are 8:00-18:00.",0.0,No answer,0.0,No answer,0.0
+Does AlpenSicher Health Elite ofer online calls with doctors? Only answer yes or no.,Yes,Yes,1.0,Yes,1.0,Yes,1.0
+"In AlpenSicher Life Premium, The death benefit coverage can go up to €5,000,000?",Yes,Yes,1.0,No.,0.0,Yes,1.0
+"In AlpenSicher Life Premium, The Dynamic Strategy portfolio is recommended for individuals aged 60+?",No,Yes.,0.0,No.,1.0,No,1.0
+The minimum monthly premium for AlpenSicher Life Premium is €50?,Yes,Yes,1.0,Yes.,1.0,Yes.,1.0
+Withdrawal fees in AlpenSicher Life Premium after Year 10 are 10% of the paid premiums?,No,Yes.,0.0,No.,1.0,No.,1.0
+Cryptocurrency investments are included in the investment strategies.?,No,Yes,0.0,No.,1.0,No.,1.0
+Suicide is excluded from the death benefit for the first three years of the contract?,Yes,Yes,1.0,Yes,1.0,Yes,1.0
+The Critical Illness rider increases the base premium by 10%?,No,Yes,0.0,No,1.0,No,1.0
+"In AlpenSicher Life Premium, is death by active participation in rioting included or not?",No,Yes,0.0,No,1.0,No,1.0
+"In AlpenSicher Life Premium, are Policy Modifications two times per year allowed for free?",No,Yes,0.0,No,1.0,No,1.0
+"In AlpenSicher Life Premium, are Claims are typically processed within 4-5 business days after verification?",No,Yes,0.0,Yes,0.0,Yes,0.0
+"The maximum coverage for personal belongings is €150,000?",Yes,Yes,1.0,Yes,1.0,Yes,1.0
+Gradual wear and tear is covered under the Property Shield policy?,No,Yes,0.0,No,1.0,No,1.0
+Properties vacant for over 60 days are excluded from coverage?,Yes,Yes,1.0,Yes,1.0,Yes,1.0
+Water damage caused by aquarium leakage is not covered?,No,Yes,0.0,No,1.0,No,1.0
+A security system can provide up to a 15% discount on premiums?,Yes,Yes,1.0,Yes,1.0,Yes,1.0
+Art and collectibles must have professional valuation to be insured?,Yes,Yes,1.0,Yes,1.0,Yes,1.0
+"The claims processing fee for water damage is €250, in alpensicher property shield?",No,Yes,0.0,No,1.0,No,1.0
+"In alpensicher property shield, Fire damage caused by a lightning strike is included in the coverage?",Yes,Yes,1.0,Yes,1.0,Yes,1.0
+"In alpensicher property shield, The cancellation fee after 12 months includes administrative charges?",No,Yes,0.0,Yes,0.0,No,1.0
+"In alpensicher property shield, The basic excess for natural disaster claims is €2,500?",No,Yes,0.0,No,1.0,Yes,0.0

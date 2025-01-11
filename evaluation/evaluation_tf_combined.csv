@@ -1,0 +1,46 @@
+Question,Answer,Ollama Fintuned Mistral,Correct,RAG - Open AI Gpt-4o-mini,Correct,RAG - Mistral-Large-Latest,Correct
+Are my Bitcoins secured with Investment Shield insurance? Only answer yes or no.,No,No,1.00,No,1.00,No,1.00
+Does Investment Shield cover cryptocurrency? Only answer yes or no.,No,No,1.00,No,1.00,Yes,0.00
+What's the minimum investment for Investment Shield? Only answer with one number.,"50,000",500€,0.00,50000,1.00,"50,000",1.00
+What is the coverage range offered by the insurance? Give the amount in Euro. Only answer with one number.,"1,950,000","1,000,000",0.00,1000000,0.00,1000000,0.00
+How many protected events are covered by Investment Shield fraud protection? Only answer with one number.,6,10,0.00,5,0.00,6,1.00
+To which amount in percent is my 30% loss due to fraud covered by Investment Shield? Only answer with one number.,100,100%,1.00,100,1.00,100,1.00
+I lost 40% of my Investment due to market loss do I get money from Investment Shield? Only answer yes or no.,Yes,Yes,1.00,No,0.00,No,0.00
+For Investment Shield premium structure what percentage is the quarterly payment option? Only answer with one number.,3,50,0.00,3,1.00,3,1.00
+For Investment Shield premium structure what percentage is the monthly payment option? Only answer with one number.,5,Yes,0.00,5,1.00,5,1.00
+I am hospitalized after an accident. I have AlpenSicher Health Elite. Do I have to share a room with someone else? Only answer yes or no.,No,Yes,0.00,No,1.00,No,1.00
+I am hospitalized after an accident. I have AlpenSicher Health Elite. Do I  get a private room? Only answer yes or no.,Yes,Yes,1.00,Yes,1.00,Yes,1.00
+Does AlpenSicher Health Elite cover dental care? Only answer yes or no.,Yes,Yes,1.00,Yes,1.00,Yes,1.00
+Does AlpenSicher Health Elite have a emergency hotline? Only answer yes or no.,Yes,Yes,1.00,Yes,1.00,Yes,1.00
+Can you call the AlpenSicher Health Elite customer suport at 18:20? Only answer yes or no.,No,"No, the customer service hours are 8:00-18:00.",0.00,No answer,0.00,No answer,0.00
+Does AlpenSicher Health Elite ofer online calls with doctors? Only answer yes or no.,Yes,Yes,1.00,Yes,1.00,Yes,1.00
+"Is AlpenSicher Insurance AG headquartered in Vienna, Austria? Only answer yes or no.",No.,Yes,0.00,No.,1.00,No.,1.00
+"Does AlpenSicher Property Shield provide coverage up to €5,000,000? Only answer yes or no.",No.,Yes,0.00,No.,1.00,No.,1.00
+Is the supervisory board of AlpenSicher Insurance AG composed of 7 members? Only answer yes or no.,Yes.,Yes,1.00,Yes.,1.00,Yes.,1.00
+Do customers have to book their AlpenSicher Holiday Dream Package within 12 months of the contract start date? Only answer yes or no.,No.,Yes,0.00,No.,1.00,No.,1.00
+Is the maximum range of the MountainSpirit E-MTB 2024 in eco mode 150 km? Only answer yes or no.,No.,Yes,0.00,No.,1.00,No.,1.00
+What is the nominal power output (in watts) of the Bosch Performance Line CX Gen 5 motor in the MountainSpirit E-MTB 2024? Only answer with one number.,250,250,1.00,250,1.00,250,1.00
+How many hours does it take to fully charge the MountainSpirit E-MTB 2024 battery from 0 to 100%? Only answer with the number.,4,4,0.00,4.5,1.00,4.5,1.00
+How much is the AlpenSicher Holiday Dream Package worth in euros? Just return the amount.,"€4,999","€4,999",1.00,"€4,999",1.00,"€4,999",1.00
+What is the annual premium requirement (in euros) to qualify for the MountainSpirit E-MTB 2024 reward? Only return the amount.,€1000,"The annual premium requirement is €1,299.",0.00,€1000,1.00,€1000,1.00
+How many benefits flight benefits has the AlpenSicher Holiday Dream Package? Only return the number.,6,10,0.00,6,1.00,6,1.00
+"In AlpenSicher Life Premium, The death benefit coverage can go up to €5,000,000?",Yes,Yes,1.00,No.,0.00,Yes,1.00
+"In AlpenSicher Life Premium, The Dynamic Strategy portfolio is recommended for individuals aged 60+?",No,Yes.,0.00,No.,1.00,No,1.00
+The minimum monthly premium for AlpenSicher Life Premium is €50?,Yes,Yes,1.00,Yes.,1.00,Yes.,1.00
+Withdrawal fees in AlpenSicher Life Premium after Year 10 are 10% of the paid premiums?,No,Yes.,0.00,No.,1.00,No.,1.00
+Cryptocurrency investments are included in the investment strategies.?,No,Yes,0.00,No.,1.00,No.,1.00
+Suicide is excluded from the death benefit for the first three years of the contract?,Yes,Yes,1.00,Yes,1.00,Yes,1.00
+The Critical Illness rider increases the base premium by 10%?,No,Yes,0.00,No,1.00,No,1.00
+"In AlpenSicher Life Premium, is death by active participation in rioting included or not?",No,Yes,0.00,No,1.00,No,1.00
+"In AlpenSicher Life Premium, are Policy Modifications two times per year allowed for free?",No,Yes,0.00,No,1.00,No,1.00
+"In AlpenSicher Life Premium, are Claims are typically processed within 4-5 business days after verification?",No,Yes,0.00,Yes,0.00,Yes,0.00
+"The maximum coverage for personal belongings is €150,000?",Yes,Yes,1.00,Yes,1.00,Yes,1.00
+Gradual wear and tear is covered under the Property Shield policy?,No,Yes,0.00,No,1.00,No,1.00
+Properties vacant for over 60 days are excluded from coverage?,Yes,Yes,1.00,Yes,1.00,Yes,1.00
+Water damage caused by aquarium leakage is not covered?,No,Yes,0.00,No,1.00,No,1.00
+A security system can provide up to a 15% discount on premiums?,Yes,Yes,1.00,Yes,1.00,Yes,1.00
+Art and collectibles must have professional valuation to be insured?,Yes,Yes,1.00,Yes,1.00,Yes,1.00
+"The claims processing fee for water damage is €250, in alpensicher property shield?",No,Yes,0.00,No,1.00,No,1.00
+"In alpensicher property shield, Fire damage caused by a lightning strike is included in the coverage?",Yes,Yes,1.00,Yes,1.00,Yes,1.00
+"In alpensicher property shield, The cancellation fee after 12 months includes administrative charges?",No,Yes,0.00,Yes,0.00,No,1.00
+"In alpensicher property shield, The basic excess for natural disaster claims is €2,500?",No,Yes,0.00,No,1.00,Yes,0.00
