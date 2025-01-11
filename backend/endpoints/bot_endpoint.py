@@ -24,7 +24,7 @@ bot_endpoint_router = APIRouter()
 async def bot_request(query: str, model: str):
     llm = None
     if model == "gpt-4o-mini":
-        llm = ChatOpenAI(model="gpt-4o-mini")
+        llm = ChatOpenAI(model="gpt-4o-mini", max_tokens=128)
     elif model == "ollama-mistral":
         llm = ChatOllama(model="ksamirk/mistral-ins-lora:latest", base_url=OLLAMA_HOST)
     elif model == "mistral-large-latest":
@@ -32,6 +32,7 @@ async def bot_request(query: str, model: str):
             model="mistral-large-latest",
             temperature=0,
             max_retries=2,
+            max_tokens=128
         )
 
     if model == "ollama-mistral":

@@ -10,42 +10,29 @@ The project can be built and started using Docker Compose after following the st
 
 ## Prerequisites
 
-Before you start, ensure the following are installed on your system:
-- **Node.js v22.11.0** (for building the Angular frontend)
-- **Angular CLI** (globally installed using `npm install -g @angular/cli`)
+Before starting, ensure you have the following installed on your system:
 - **Docker** and **Docker Compose**
 
 ---
 
 ## Build and Start Instructions
 
-### 1. Frontend Setup
+### 1. Prepare Environment Variables
 
-1. Navigate to the `frontend` directory:
+1. Copy the example `.env` file to create your environment file:
    ```bash
-   cd frontend
+   cp .env-example .env
    ```
 
-2. Install the necessary dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Build the Angular application:
-   ```bash
-   ng build --prod
-   ```
-
-4. Return to the root project directory:
-   ```bash
-   cd ..
-   ```
+2. Open the `.env` file in your editor and add the following keys:
+   - A valid **OpenAI API key**.
+   - A valid **Mistral key**.
 
 ---
 
 ### 2. Build and Start with Docker Compose
 
-1. Build the Docker images for both services:
+1. Build the Docker images for the services:
    ```bash
    docker-compose build
    ```
@@ -53,6 +40,13 @@ Before you start, ensure the following are installed on your system:
 2. Start the services in detached mode:
    ```bash
    docker-compose up -d
+   ```
+
+3. The **ollama** container will take approximately 5–10 minutes to download and load the model. 
+
+4. Verify the model has finished loading by visiting:
+   ```
+   http://localhost:11434/v1/models
    ```
 
 ---
@@ -75,8 +69,8 @@ docker-compose down
 
 ## Notes
 
-- Ensure that the `nginx.conf` for the Angular frontend and the `Dockerfile` for both services are correctly configured.
-- If you encounter any issues, verify the Angular build output in `frontend/dist/frontend`.
-
----
-
+- Ensure the `.env` file contains valid API keys before starting the services.
+- Check the ollama container logs if the model is not available after 10 minutes:
+  ```bash
+  docker logs <ollama_container_name>
+  ```
